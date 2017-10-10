@@ -26,7 +26,7 @@ public class ItemsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Create arraylist from item fixtures
-        ArrayList<Item> items = Item.getItems();
+        ArrayList<Item> items = Item.getItems();   //obtengo los items
         // Create adapter based on items
         adapterItems = new ArrayAdapter<Item>(getActivity(),
                 android.R.layout.simple_list_item_activated_1, items);

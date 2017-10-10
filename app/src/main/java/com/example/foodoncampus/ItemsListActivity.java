@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
+import org.json.JSONException;
+
 public class ItemsListActivity extends AppCompatActivity implements ItemsListFragment.OnListItemSelectedListener{
 
     // Flag determines if this is a one or two pane layout
@@ -14,15 +16,18 @@ public class ItemsListActivity extends AppCompatActivity implements ItemsListFra
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        FoodParser fp = new FoodParser();
-        fp.callOpenFood();
-
+        FoodParser parser = new FoodParser();
+        try {
+            String[][] s = parser.getData();
+            for (int i=0;i<s[0].length;i++)
+                Item.addItem(s[0][i],s[1][i]);  //añado los items titulo y comida
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_items_list);
-        // Call this to determine which layout we are in (tablet or phone)
+        setContentView(R.layout.activity_items_list);
         determinePaneLayout();
     }
 
@@ -37,6 +42,7 @@ public class ItemsListActivity extends AppCompatActivity implements ItemsListFra
 
         }
     }
+
 
     @Override
     public void onItemSelected(Item item) {
